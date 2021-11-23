@@ -2,10 +2,13 @@ package com.example.appsales26082021;
 
 import android.util.Log;
 
+import javax.inject.Inject;
+
 public class Car {
     private Wheel wheel;
     private Engine engine;
 
+    @Inject
     public Car(Wheel wheel, Engine engine) {
         this.wheel = wheel;
         this.engine = engine;

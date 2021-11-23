@@ -1,10 +1,13 @@
 package com.example.appsales26082021;
 
+import javax.inject.Inject;
+
 public class Engine {
     private int horsepower;
     private String name;
 
-    public Engine(int horsepower, String name) {
+    @Inject
+    public Engine(int horsepower,String name) {
         this.horsepower = horsepower;
         this.name = name;
     }
