@@ -1,26 +1,15 @@
 package com.example.appsales26082021;
 
 import android.app.Application;
-import android.util.Log;
 
-import javax.inject.Inject;
+import dagger.android.AndroidInjector;
+import dagger.android.support.DaggerApplication;
 
-public class MyApplication extends Application {
+public class MyApplication extends DaggerApplication {
 
-    @Inject
-    Car car;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        CarComponent carComponent = DaggerCarComponent.builder()
-                .bindWheel(new Wheel(4))
-                .bindEngine(new Engine(4, "Best Engine"))
-                .application(this)
-                .build();
-        carComponent.inject(this);
-        Log.d("BBB",car.toString());
-
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 }
