@@ -11,14 +11,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
     Car car;
-
-    @Inject
-    String stringFromObject;
-
-    @Inject
-    Drawable drawableFromModule;
 
     ImageView mImg;
     @Override
@@ -28,16 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         mImg = findViewById(R.id.imageView);
 
-        CarComponent carComponent = DaggerCarComponent.builder()
-                .bindWheel(new Wheel(4))
-                .bindEngine(new Engine(4, "Best Engine"))
-                .application(getApplication())
-                .build();
-        carComponent.inject(this);
+        car = ((MyApplication) getApplication()).car;
 
-        Log.d("BBB",stringFromObject);
-
-        mImg.setImageDrawable(drawableFromModule);
+        Log.d("BBB",car.toString());
 
 //        car.drive();
     }
