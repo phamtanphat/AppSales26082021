@@ -1,4 +1,4 @@
-package com.example.appsales26082021.di;
+package com.example.appsales26082021.di.activity;
 
 import com.example.appsales26082021.view.MainActivity;
 
