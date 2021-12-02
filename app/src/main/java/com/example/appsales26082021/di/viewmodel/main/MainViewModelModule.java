@@ -3,7 +3,7 @@ package com.example.appsales26082021.di.viewmodel.main;
 import androidx.lifecycle.ViewModel;
 
 import com.example.appsales26082021.di.ViewModelKey;
-import com.example.appsales26082021.view.main.MainViewModel;
+import com.example.appsales26082021.viewmodel.MainViewModel;
 
 import dagger.Binds;
 import dagger.Module;

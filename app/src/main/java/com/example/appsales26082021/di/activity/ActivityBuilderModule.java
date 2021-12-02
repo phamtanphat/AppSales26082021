@@ -3,8 +3,7 @@ package com.example.appsales26082021.di.activity;
 import com.example.appsales26082021.di.viewmodel.auth.AuthViewModelModule;
 import com.example.appsales26082021.di.viewmodel.main.MainViewModelModule;
 import com.example.appsales26082021.view.main.MainActivity;
-import com.example.appsales26082021.view.auth.sign_in.SignInActivity;
-import com.example.appsales26082021.view.main.MainViewModel;
+import com.example.appsales26082021.view.auth.SignInActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
