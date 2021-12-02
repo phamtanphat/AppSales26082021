@@ -1,25 +1,21 @@
 package com.example.appsales26082021.di.viewmodel;
 
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.appsales26082021.di.ViewModelKey;
-import com.example.appsales26082021.di.viewmodel.auth.AuthViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
 
-import dagger.Binds;
+import javax.inject.Singleton;
+
 import dagger.Module;
-import dagger.multibindings.IntoMap;
+import dagger.Provides;
 
 @Module
-public abstract class ViewModelFactoryModule {
+public class ViewModelFactoryModule {
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(AuthViewModel.class)
-    abstract public ViewModel bindAuthViewModel(AuthViewModel authViewModel);
-
-    @Binds
-    public abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactoryProvider viewModelFactory);
+    @Singleton
+    @Provides
+    public ViewModelProvider.Factory bindViewModelFactory(ViewModelFactoryProvider viewModelFactory){
+        return viewModelFactory;
+    }
 
 }

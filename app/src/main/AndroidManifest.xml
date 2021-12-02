@@ -13,8 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSales26082021">
         <activity
-            android:name=".view.SignInActivity"
-            android:exported="true" >
+            android:name=".view.auth.sign_in.SignInActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,10 +22,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:name=".view.main.MainActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

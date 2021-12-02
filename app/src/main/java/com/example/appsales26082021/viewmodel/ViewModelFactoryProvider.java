@@ -9,7 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-@Singleton
+import kotlin.jvm.JvmSuppressWildcards;
+
 public class ViewModelFactoryProvider implements ViewModelProvider.Factory {
 
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;

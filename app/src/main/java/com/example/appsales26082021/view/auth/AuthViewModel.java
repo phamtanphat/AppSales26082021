@@ -1,4 +1,4 @@
-package com.example.appsales26082021.di.viewmodel.auth;
+package com.example.appsales26082021.view.auth;
 
 import android.util.Log;
 
