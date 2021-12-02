@@ -132,4 +132,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/includeLoading"
+        layout="@layout/layout_loading"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
