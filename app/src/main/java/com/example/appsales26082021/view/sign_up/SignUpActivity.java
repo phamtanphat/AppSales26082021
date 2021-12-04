@@ -1,6 +1,5 @@
 package com.example.appsales26082021.view.sign_up;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivitySignUpBinding;
 import com.example.appsales26082021.model.UserModel;
+import com.example.appsales26082021.util.Constant;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.viewmodel.AuthViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -77,7 +77,7 @@ public class SignUpActivity extends DaggerAppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                             mBinding.containerLoading.layoutLoading.setVisibility(View.GONE);
                             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                            intent.putExtra("usermodel",userModelResourceType.data);
+                            intent.putExtra(Constant.KEY_USER_MODEL,userModelResourceType.data);
                             setResult(RESULT_OK,intent);
                             finish();
                             break;

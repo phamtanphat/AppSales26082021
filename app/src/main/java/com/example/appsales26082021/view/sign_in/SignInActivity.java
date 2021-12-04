@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivitySignInBinding;
 import com.example.appsales26082021.model.UserModel;
+import com.example.appsales26082021.util.Constant;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
 import com.example.appsales26082021.viewmodel.AuthViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -28,6 +30,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
     AuthViewModel mAuthViewModel;
 
     private ActivitySignInBinding mBinding;
+    private final int REQUEST_CODE_USER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
         mBinding.textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+                startActivityForResult(new Intent(SignInActivity.this, SignUpActivity.class),REQUEST_CODE_USER);
             }
         });
     }
@@ -82,5 +85,14 @@ public class SignInActivity extends DaggerAppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_USER && resultCode == RESULT_OK && data != null){
+            UserModel userModel = (UserModel) data.getSerializableExtra(Constant.KEY_USER_MODEL);
+            mBinding.textEditEmail.setText(userModel.getEmail());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
