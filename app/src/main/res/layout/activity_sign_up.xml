@@ -78,7 +78,7 @@
         app:startIconTint="@null">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textEditLocation"
+            android:id="@+id/text_edit_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"

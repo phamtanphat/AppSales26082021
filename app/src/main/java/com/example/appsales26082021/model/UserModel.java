@@ -1,6 +1,8 @@
 package com.example.appsales26082021.model;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
 
     private String userId;
     private String fullName;
@@ -16,6 +18,14 @@ public class UserModel {
     public UserModel(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public UserModel(String fullName, String email, String password, String phone, String address) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
     }
 
     public String getUserId() {

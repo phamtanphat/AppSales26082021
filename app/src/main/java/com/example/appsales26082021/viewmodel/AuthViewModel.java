@@ -60,4 +60,30 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
+    public void signUp(UserModel userModel) {
+        userData.setValue(new ResourceType.Loading<>(null));
+        Call<ResourceType<UserModel>> data = authRepository.signUp(userModel);
+        data.enqueue(new Callback<ResourceType<UserModel>>() {
+            @Override
+            public void onResponse(Call<ResourceType<UserModel>> call, Response<ResourceType<UserModel>> response) {
+                if (response.errorBody() != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        String message = jsonObject.getString("message");
+                        userData.setValue(new ResourceType.Error<>(message));
+                        return;
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                userData.setValue(new ResourceType.Success<>(response.body().data));
+            }
+
+            @Override
+            public void onFailure(Call<ResourceType<UserModel>> call, Throwable t) {
+                userData.setValue(new ResourceType.Error<>(t.getMessage()));
+            }
+        });
+    }
+
 }

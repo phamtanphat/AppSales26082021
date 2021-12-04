@@ -19,4 +19,8 @@ public class AuthRepository {
     public Call<ResourceType<UserModel>> signIn(UserModel userModel){
        return apiRequest.signIn(userModel);
     }
+
+    public Call<ResourceType<UserModel>> signUp(UserModel userModel){
+        return apiRequest.signUp(userModel);
+    }
 }
