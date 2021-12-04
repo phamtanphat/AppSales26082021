@@ -1,5 +1,7 @@
 package com.example.appsales26082021.di;
 
+import android.content.SharedPreferences;
+
 import com.example.appsales26082021.MyApplication;
 import com.example.appsales26082021.di.activity.ActivityBuilderModule;
 import com.example.appsales26082021.di.viewmodel.ViewModelFactoryModule;
@@ -17,10 +19,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 AndroidSupportInjectionModule.class,
                 ActivityBuilderModule.class,
                 AppModule.class,
-                ViewModelFactoryModule.class
+                ViewModelFactoryModule.class,
+                SharePrefModule.class
         }
 )
 public interface AppComponent extends AndroidInjector<MyApplication> {
+
+    SharedPreferences getSharePreference();
 
     @Component.Builder
     interface Builder {

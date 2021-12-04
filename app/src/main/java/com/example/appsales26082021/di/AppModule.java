@@ -1,5 +1,9 @@
 package com.example.appsales26082021.di;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.appsales26082021.api.ApiRequest;
 import com.example.appsales26082021.util.Constant;
 import com.google.gson.Gson;
@@ -53,5 +57,7 @@ public class AppModule {
     ApiRequest provideRequest(Retrofit retrofit){
         return retrofit.create(ApiRequest.class);
     }
+
+
 
 }

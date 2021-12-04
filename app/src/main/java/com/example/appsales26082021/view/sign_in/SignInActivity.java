@@ -1,8 +1,10 @@
 package com.example.appsales26082021.view.sign_in;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,10 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.appsales26082021.MyApplication;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivitySignInBinding;
 import com.example.appsales26082021.model.UserModel;
 import com.example.appsales26082021.util.Constant;
+import com.example.appsales26082021.util.SharePref;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
 import com.example.appsales26082021.viewmodel.AuthViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -26,6 +30,9 @@ public class SignInActivity extends DaggerAppCompatActivity {
 
     @Inject
     public ViewModelFactoryProvider provider;
+
+    @Inject
+    SharePref mSharePreference;
 
     AuthViewModel mAuthViewModel;
 
@@ -43,6 +50,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
 
         mAuthViewModel = new ViewModelProvider(this, provider).get(AuthViewModel.class);
 
+        Log.d("BBB",mSharePreference.toString());
         observerData();
         event();
     }
