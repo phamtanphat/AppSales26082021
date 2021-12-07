@@ -21,5 +21,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_food" />
 
-
+    <include
+        android:id="@+id/includeLoading"
+        layout="@layout/layout_loading"/>
 </LinearLayout>
