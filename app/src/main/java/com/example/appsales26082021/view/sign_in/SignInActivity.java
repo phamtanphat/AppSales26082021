@@ -16,6 +16,7 @@ import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivitySignInBinding;
 import com.example.appsales26082021.model.UserModel;
 import com.example.appsales26082021.util.Constant;
+import com.example.appsales26082021.view.main.MainActivity;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
 import com.example.appsales26082021.viewmodel.AuthViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -84,6 +85,8 @@ public class SignInActivity extends DaggerAppCompatActivity {
                 } else if (userModelResourceType.status == ResourceType.Status.SUCCESS) {
                     Toast.makeText(SignInActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(SignInActivity.this, userModelResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
