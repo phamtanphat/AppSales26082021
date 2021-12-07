@@ -1,5 +1,6 @@
 package com.example.appsales26082021.viewmodel;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,6 +10,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.model.UserModel;
 import com.example.appsales26082021.repository.AuthRepository;
+import com.example.appsales26082021.util.Constant;
+import com.example.appsales26082021.util.SharePref;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,12 +25,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuthViewModel extends ViewModel {
+    public SharePref sharePref;
     private AuthRepository authRepository;
     private MutableLiveData<ResourceType<UserModel>> userData = new MutableLiveData<>();
 
     @Inject
-    public AuthViewModel(AuthRepository authRepository) {
+    public AuthViewModel(AuthRepository authRepository, SharePref sharePref) {
         this.authRepository = authRepository;
+        this.sharePref = sharePref;
     }
 
     public LiveData<ResourceType<UserModel>> getUserData() {
@@ -51,6 +56,7 @@ public class AuthViewModel extends ViewModel {
                     }
                 }
                 userData.setValue(new ResourceType.Success<>(response.body().data));
+                sharePref.setToken(Constant.KEY_TOKEN,response.body().data.getToken());
             }
 
             @Override

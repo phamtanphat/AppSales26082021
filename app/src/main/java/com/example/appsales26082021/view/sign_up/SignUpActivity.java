@@ -38,7 +38,6 @@ public class SignUpActivity extends DaggerAppCompatActivity {
 
         mAuthViewModel = new ViewModelProvider(this, provider).get(AuthViewModel.class);
 
-
         observerData();
         event();
     }
@@ -67,8 +66,8 @@ public class SignUpActivity extends DaggerAppCompatActivity {
         mAuthViewModel.getUserData().observe(this, new Observer<ResourceType<UserModel>>() {
             @Override
             public void onChanged(ResourceType<UserModel> userModelResourceType) {
-                if (userModelResourceType != null){
-                    switch (userModelResourceType.status){
+                if (userModelResourceType != null) {
+                    switch (userModelResourceType.status) {
                         case LOADING:
                             mBinding.containerLoading.layoutLoading.setVisibility(View.VISIBLE);
                             break;
@@ -80,8 +79,8 @@ public class SignUpActivity extends DaggerAppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                             mBinding.containerLoading.layoutLoading.setVisibility(View.GONE);
                             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                            intent.putExtra(Constant.KEY_USER_MODEL,userModelResourceType.data);
-                            setResult(RESULT_OK,intent);
+                            intent.putExtra(Constant.KEY_USER_MODEL, userModelResourceType.data);
+                            setResult(RESULT_OK, intent);
                             finish();
                             break;
                     }

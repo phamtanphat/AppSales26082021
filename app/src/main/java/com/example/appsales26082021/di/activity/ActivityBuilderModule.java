@@ -5,6 +5,7 @@ import com.example.appsales26082021.di.viewmodel.main.MainViewModelModule;
 import com.example.appsales26082021.view.main.MainActivity;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
+import com.example.appsales26082021.view.splash.SplashActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -26,4 +27,7 @@ public abstract class ActivityBuilderModule {
             modules = {AuthViewModelModule.class}
     )
     abstract public SignUpActivity bindContributeSignUpActivity();
+
+    @ContributesAndroidInjector
+    abstract public SplashActivity bindContributeSplashActivity();
 }
