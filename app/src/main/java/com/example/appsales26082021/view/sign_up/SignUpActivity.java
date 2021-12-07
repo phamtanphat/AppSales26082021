@@ -4,7 +4,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class SignUpActivity extends DaggerAppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mAuthViewModel = new ViewModelProvider(this, provider).get(AuthViewModel.class);
+
 
         observerData();
         event();

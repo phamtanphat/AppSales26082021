@@ -1,5 +1,6 @@
 package com.example.appsales26082021.di;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.example.appsales26082021.MyApplication;
@@ -30,7 +31,7 @@ public interface AppComponent extends AndroidInjector<MyApplication> {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        Builder application(MyApplication myApplication);
+        Builder application(Application application);
 
         AppComponent build();
     }
