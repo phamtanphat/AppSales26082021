@@ -14,6 +14,7 @@ import com.example.appsales26082021.adapter.FoodAdapter;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivityMainBinding;
 import com.example.appsales26082021.model.FoodModel;
+import com.example.appsales26082021.util.SharePref;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.viewmodel.MainViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -35,6 +36,9 @@ public class MainActivity extends DaggerAppCompatActivity {
     private FoodAdapter mFoodAdapter;
     private List<FoodModel> mListFoods;
     private ActivityMainBinding mBinding;
+
+    @Inject
+    SharePref sharePref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,5 +81,15 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         mBinding.toolbarMain.setTitle("Home");
         mBinding.toolbarMain.setTitleTextColor(Color.WHITE);
+        mBinding.toolbarMain.setNavigationIcon(R.drawable.ic_person);
+
+        mBinding.toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharePref.clearData();
+                startActivity(new Intent(MainActivity.this,SignInActivity.class));
+                finish();
+            }
+        });
     }
 }
