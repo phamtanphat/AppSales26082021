@@ -14,18 +14,20 @@
         android:theme="@style/Theme.AppSales26082021">
         <activity
             android:name=".view.splash.SplashActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.sign_up.SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".view.sign_in.SignInActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".view.main.MainActivity"

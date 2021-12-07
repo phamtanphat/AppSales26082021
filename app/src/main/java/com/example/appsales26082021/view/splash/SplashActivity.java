@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import com.example.appsales26082021.R;
 
-public class SplashActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class SplashActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
