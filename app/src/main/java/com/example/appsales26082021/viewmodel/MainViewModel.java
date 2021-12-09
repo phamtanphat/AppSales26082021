@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.model.FoodModel;
+import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.model.UserModel;
 import com.example.appsales26082021.repository.FoodRepository;
+import com.example.appsales26082021.repository.OrderRepository;
 import com.example.appsales26082021.util.Constant;
 
 import org.json.JSONException;
@@ -28,12 +30,15 @@ import retrofit2.Response;
 public class MainViewModel extends ViewModel {
 
     private FoodRepository foodRepository;
+    private OrderRepository orderRepository;
     private MutableLiveData<ResourceType<List<FoodModel>>> foodData = new MutableLiveData<>();
     private MutableLiveData<ResourceType<List<FoodModel>>> cartData = new MutableLiveData<>();
+    private MutableLiveData<ResourceType<OrderModel>> orderData = new MutableLiveData<>();
 
     @Inject
-    public MainViewModel(FoodRepository foodRepository) {
+    public MainViewModel(FoodRepository foodRepository,OrderRepository orderRepository) {
         this.foodRepository = foodRepository;
+        this.orderRepository = orderRepository;
     }
 
     public LiveData<ResourceType<List<FoodModel>>> getListFoods(){
@@ -92,6 +97,30 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onFailure(Call<ResourceType<List<FoodModel>>> call, Throwable t) {
                 cartData.setValue(new ResourceType.Error<>(t.getMessage()));
+            }
+        });
+    }
+
+    public void addCart(String foodId){
+        orderRepository.addCart(foodId).enqueue(new Callback<ResourceType<OrderModel>>() {
+            @Override
+            public void onResponse(Call<ResourceType<OrderModel>> call, Response<ResourceType<OrderModel>> response) {
+                if (response.errorBody() != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        String message = jsonObject.getString("message");
+                        orderData.setValue(new ResourceType.Error<>(message));
+                        return;
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                orderData.setValue(new ResourceType.Success<>(response.body().data));
+            }
+
+            @Override
+            public void onFailure(Call<ResourceType<OrderModel>> call, Throwable t) {
+                orderData.setValue(new ResourceType.Error<>(t.getMessage()));
             }
         });
     }
