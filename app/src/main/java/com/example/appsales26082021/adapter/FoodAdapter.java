@@ -1,6 +1,7 @@
 package com.example.appsales26082021.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.appsales26082021.R;
 import com.example.appsales26082021.databinding.ItemFoodBinding;
+import com.example.appsales26082021.interfaces.OnFoodItemListener;
 import com.example.appsales26082021.model.FoodModel;
 
 import java.text.DecimalFormat;
@@ -19,6 +21,7 @@ import java.util.List;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
     private List<FoodModel> lstFoodModels;
+    private OnFoodItemListener onFoodItemListener;
 
     public FoodAdapter() {
         lstFoodModels = new ArrayList<>();
@@ -57,6 +60,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         public FoodViewHolder(ItemFoodBinding itemFoodBinding) {
             super(itemFoodBinding.getRoot());
             mBinding = itemFoodBinding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onFoodItemListener != null){
+                        onFoodItemListener.onClick(getAdapterPosition());
+                    }
+                }
+            });
         }
 
         void bind(FoodModel foodModel) {
@@ -71,4 +82,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mBinding.textViewPrice.setText("Giá " + formatter.format(foodModel.price) + " đ");
         }
     }
+
+    public void setOnFoodItemListener(OnFoodItemListener onFoodItemListener){
+        this.onFoodItemListener = onFoodItemListener;
+    }
+
+
 }

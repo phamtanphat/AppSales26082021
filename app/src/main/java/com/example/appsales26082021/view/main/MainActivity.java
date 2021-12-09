@@ -16,7 +16,9 @@ import com.example.appsales26082021.R;
 import com.example.appsales26082021.adapter.FoodAdapter;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivityMainBinding;
+import com.example.appsales26082021.interfaces.OnFoodItemListener;
 import com.example.appsales26082021.model.FoodModel;
+import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.util.SharePref;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.viewmodel.MainViewModel;
@@ -39,6 +41,7 @@ public class MainActivity extends DaggerAppCompatActivity {
     private FoodAdapter mFoodAdapter;
     private List<FoodModel> mListFoods;
     private List<FoodModel> mListCarts;
+    private OrderModel mOrderModel;
 
     private ActivityMainBinding mBinding;
 
@@ -60,6 +63,13 @@ public class MainActivity extends DaggerAppCompatActivity {
     private void event() {
         mainViewModel.fetchListFoods();
         mainViewModel.fetchCart();
+
+        mFoodAdapter.setOnFoodItemListener(new OnFoodItemListener() {
+            @Override
+            public void onClick(int position) {
+                mainViewModel.addCart(mListFoods.get(position).foodId);
+            }
+        });
     }
 
     private void observerData() {
@@ -89,6 +99,22 @@ public class MainActivity extends DaggerAppCompatActivity {
                     mListCarts = listResourceType.data;
                 } else {
                     Toast.makeText(MainActivity.this, listResourceType.message, Toast.LENGTH_SHORT).show();
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mainViewModel.getOrder().observe(this, new Observer<ResourceType<OrderModel>>() {
+            @Override
+            public void onChanged(ResourceType<OrderModel> orderModelResourceType) {
+                if (orderModelResourceType.status == ResourceType.Status.LOADING) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
+                } else if (orderModelResourceType.status == ResourceType.Status.SUCCESS) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    mOrderModel = orderModelResourceType.data;
+                    mainViewModel.fetchCart();
+                } else {
+                    Toast.makeText(MainActivity.this, orderModelResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
             }

@@ -49,6 +49,10 @@ public class MainViewModel extends ViewModel {
         return cartData;
     }
 
+    public LiveData<ResourceType<OrderModel>> getOrder(){
+        return orderData;
+    }
+
     public void fetchListFoods(){
         foodRepository.fetchListFoods().enqueue(new Callback<ResourceType<List<FoodModel>>>() {
             @Override
