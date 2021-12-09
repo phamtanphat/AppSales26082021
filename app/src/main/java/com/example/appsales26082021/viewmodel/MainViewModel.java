@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class MainViewModel extends ViewModel {
 
     private FoodRepository foodRepository;
     private MutableLiveData<ResourceType<List<FoodModel>>> foodData = new MutableLiveData<>();
+    private MutableLiveData<ResourceType<List<FoodModel>>> cartData = new MutableLiveData<>();
 
     @Inject
     public MainViewModel(FoodRepository foodRepository) {
@@ -36,6 +38,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<ResourceType<List<FoodModel>>> getListFoods(){
         return foodData;
+    }
+
+    public LiveData<ResourceType<List<FoodModel>>> getCart(){
+        return cartData;
     }
 
     public void fetchListFoods(){
@@ -58,6 +64,34 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onFailure(Call<ResourceType<List<FoodModel>>> call, Throwable t) {
                 foodData.setValue(new ResourceType.Error<>(t.getMessage()));
+            }
+        });
+    }
+
+    public void fetchCart(){
+        foodRepository.fetchCart().enqueue(new Callback<ResourceType<List<FoodModel>>>() {
+            @Override
+            public void onResponse(Call<ResourceType<List<FoodModel>>> call, Response<ResourceType<List<FoodModel>>> response) {
+                if (response.errorBody() != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        String message = jsonObject.getString("message");
+                        cartData.setValue(new ResourceType.Error<>(message));
+                        return;
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (response.body().data == null){
+                    cartData.setValue(new ResourceType.Success<>(new ArrayList<>()));
+                }else{
+                    cartData.setValue(new ResourceType.Success<>(response.body().data));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResourceType<List<FoodModel>>> call, Throwable t) {
+                cartData.setValue(new ResourceType.Error<>(t.getMessage()));
             }
         });
     }

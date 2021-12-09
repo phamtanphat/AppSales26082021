@@ -21,4 +21,8 @@ public class FoodRepository {
     public Call<ResourceType<List<FoodModel>>> fetchListFoods() {
         return apiRequest.fetchListFoods();
     }
+
+    public Call<ResourceType<List<FoodModel>>> fetchCart() {
+        return apiRequest.fetchCart();
+    }
 }

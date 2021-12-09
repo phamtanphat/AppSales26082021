@@ -38,7 +38,10 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     private FoodAdapter mFoodAdapter;
     private List<FoodModel> mListFoods;
+    private List<FoodModel> mListCarts;
+
     private ActivityMainBinding mBinding;
+
 
     @Inject
     SharePref sharePref;
@@ -56,6 +59,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     private void event() {
         mainViewModel.fetchListFoods();
+        mainViewModel.fetchCart();
     }
 
     private void observerData() {
@@ -68,6 +72,21 @@ public class MainActivity extends DaggerAppCompatActivity {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                     mListFoods = listResourceType.data;
                     mFoodAdapter.updateListFoodModels(mListFoods);
+                } else {
+                    Toast.makeText(MainActivity.this, listResourceType.message, Toast.LENGTH_SHORT).show();
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mainViewModel.getCart().observe(this, new Observer<ResourceType<List<FoodModel>>>() {
+            @Override
+            public void onChanged(ResourceType<List<FoodModel>> listResourceType) {
+                if (listResourceType.status == ResourceType.Status.LOADING) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
+                } else if (listResourceType.status == ResourceType.Status.SUCCESS) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    mListCarts = listResourceType.data;
                 } else {
                     Toast.makeText(MainActivity.this, listResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
@@ -116,6 +135,11 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void setBadgeCart(TextView txtCountCart) {
-        txtCountCart.setVisibility(View.GONE);
+        if (mListCarts == null || mListCarts.size() <= 0){
+            txtCountCart.setVisibility(View.GONE);
+        }else{
+            txtCountCart.setVisibility(View.VISIBLE);
+            txtCountCart.setText(mListCarts.size() + "");
+        }
     }
 }
