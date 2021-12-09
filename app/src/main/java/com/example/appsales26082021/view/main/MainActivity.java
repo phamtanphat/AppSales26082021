@@ -3,6 +3,8 @@ package com.example.appsales26082021.view.main;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -82,6 +84,9 @@ public class MainActivity extends DaggerAppCompatActivity {
         mBinding.toolbarMain.setTitle("Home");
         mBinding.toolbarMain.setTitleTextColor(Color.WHITE);
         mBinding.toolbarMain.setNavigationIcon(R.drawable.ic_person);
+        setSupportActionBar(mBinding.toolbarMain);
+
+
 
         mBinding.toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,5 +96,18 @@ public class MainActivity extends DaggerAppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+
+        View actionView = menuItem.getActionView();
+
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 }

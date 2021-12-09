@@ -1,45 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:paddingHorizontal="5dp"
-    android:layout_gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="#2296F3"
-    android:layout_height="?attr/actionBarSize">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/textViewCart"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_circle_badge"
+        android:gravity="center"
+        android:maxLength="3"
+        android:padding="5dp"
+        android:text="99+"
+        android:layout_toEndOf="@id/imageViewCart"
+        android:textAlignment="center"
+        android:textColor="#ffff"
+        android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/imageViewUser"
+        android:id="@+id/imageViewCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <RelativeLayout
-        android:paddingVertical="2dp"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:src="@drawable/ic_cart" />
 
-        <TextView
-            android:textAlignment="center"
-            android:gravity="center"
-            android:padding="5dp"
-            android:background="@drawable/bg_circle_badge"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/textViewCart"
-            android:textColor="#ffff"
-            android:textSize="12sp"
-            android:text="99+"
-            android:maxLength="3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
-        <ImageView
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/textViewCart"
-            android:id="@+id/imageViewCart"
-            android:src="@drawable/ic_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>
