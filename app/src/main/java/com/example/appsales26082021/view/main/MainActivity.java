@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
@@ -106,8 +107,15 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         View actionView = menuItem.getActionView();
 
+        TextView txtCountCart = actionView.findViewById(R.id.textViewCart);
 
-        return super.onCreateOptionsMenu(menu);
+        setBadgeCart(txtCountCart);
 
+        return true;
+
+    }
+
+    private void setBadgeCart(TextView txtCountCart) {
+        txtCountCart.setVisibility(View.GONE);
     }
 }

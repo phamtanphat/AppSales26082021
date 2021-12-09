@@ -19,4 +19,8 @@ public interface ApiRequest {
 
     @GET("api/v1/food/list/0/10")
     Call<ResourceType<List<FoodModel>>> fetchListFoods();
+
+
+    @GET("api/v1/order/shopping-cart")
+    Call<ResourceType<List<FoodModel>>> fetchCart();
 }
