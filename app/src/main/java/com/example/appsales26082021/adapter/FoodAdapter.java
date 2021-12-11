@@ -60,7 +60,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         public FoodViewHolder(ItemFoodBinding itemFoodBinding) {
             super(itemFoodBinding.getRoot());
             mBinding = itemFoodBinding;
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            mBinding.buttonAddCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onFoodItemListener != null){

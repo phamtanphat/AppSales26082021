@@ -7,6 +7,7 @@ public class FoodModel {
     public String foodName;
     public List<ImageModel> images;
     public String description;
+    public int quantity;
     public int price;
     public String cateId;
     public String cateName;
@@ -21,6 +22,7 @@ public class FoodModel {
                 ", foodName='" + foodName + '\'' +
                 ", images=" + images +
                 ", description='" + description + '\'' +
+                ", quantity=" + quantity +
                 ", price=" + price +
                 ", cateId='" + cateId + '\'' +
                 ", cateName='" + cateName + '\'' +

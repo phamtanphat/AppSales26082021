@@ -27,6 +27,6 @@ public interface ApiRequest {
     @GET("api/v1/order/shopping-cart")
     Call<ResourceType<CartModel>> fetchCart();
 
-    @POST("api/v1/order/shopping-cart")
+    @POST("api/v1/order/add-to-cart")
     Call<ResourceType<OrderModel>> addCart(@Body HashMap<String,String> data);
 }

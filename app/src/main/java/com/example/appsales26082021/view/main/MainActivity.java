@@ -49,7 +49,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     private ActivityMainBinding mBinding;
 
-
+    TextView mTxtCountCart;
 
     @Inject
     SharePref sharePref;
@@ -102,6 +102,7 @@ public class MainActivity extends DaggerAppCompatActivity {
                 } else if (listResourceType.status == ResourceType.Status.SUCCESS) {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                     mCartModel = listResourceType.data;
+                    setBadgeCart();
                 } else {
                     String code = listResourceType.message.substring(0,3);
                     if (code.equals("401")){
@@ -165,20 +166,24 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         View actionView = menuItem.getActionView();
 
-        TextView txtCountCart = actionView.findViewById(R.id.textViewCart);
+        mTxtCountCart = actionView.findViewById(R.id.textViewCart);
 
-        setBadgeCart(txtCountCart);
+        setBadgeCart();
 
         return true;
 
     }
 
-    private void setBadgeCart(TextView txtCountCart) {
+    private void setBadgeCart() {
         if (mCartModel == null || mCartModel.items.size() <= 0){
-            txtCountCart.setVisibility(View.GONE);
+            mTxtCountCart.setVisibility(View.GONE);
         }else{
-            txtCountCart.setVisibility(View.VISIBLE);
-            txtCountCart.setText(mCartModel.items.size() + "");
+            mTxtCountCart.setVisibility(View.VISIBLE);
+            int count = 0;
+            for (FoodModel foodModel : mCartModel.items) {
+                count += foodModel.quantity;
+            }
+            mTxtCountCart.setText(count + "");
         }
     }
 }
