@@ -20,8 +20,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     }
 
-    public void updateListOrderedItemModels(List<FoodModel> lstFoodModel){
-        lstFoodModel = lstFoodModel;
+    public void updateCart(List<FoodModel> lstFoodModel){
+        this.lstFoodModel = lstFoodModel;
         notifyDataSetChanged();
     }
 
@@ -40,7 +40,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public int getItemCount() {
-        return lstFoodModel.size();
+        return lstFoodModel == null ? 0 : lstFoodModel.size();
     }
 
     class CartViewHolder extends RecyclerView.ViewHolder{

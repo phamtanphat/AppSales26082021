@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_cart"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
