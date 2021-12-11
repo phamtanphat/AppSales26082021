@@ -1,8 +1,9 @@
 package com.example.appsales26082021.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FoodModel {
+public class FoodModel implements Serializable {
     public String foodId;
     public String foodName;
     public List<ImageModel> images;

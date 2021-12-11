@@ -1,6 +1,8 @@
 package com.example.appsales26082021.model;
 
-public class ImageModel {
+import java.io.Serializable;
+
+public class ImageModel implements Serializable {
     public String imageUrl;
 
     @Override

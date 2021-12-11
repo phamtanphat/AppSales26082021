@@ -20,7 +20,9 @@ import com.example.appsales26082021.interfaces.OnFoodItemListener;
 import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.FoodModel;
 import com.example.appsales26082021.model.OrderModel;
+import com.example.appsales26082021.util.Constant;
 import com.example.appsales26082021.util.SharePref;
+import com.example.appsales26082021.view.cart.CartActivity;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.viewmodel.MainViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
@@ -46,13 +48,13 @@ public class MainActivity extends DaggerAppCompatActivity {
     private List<FoodModel> mListFoods;
     private CartModel mCartModel;
     private OrderModel mOrderModel;
+    private int REQUEST_CODE_CART = 1;
+
 
     private ActivityMainBinding mBinding;
 
     TextView mTxtCountCart;
 
-    @Inject
-    SharePref sharePref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +153,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         mBinding.toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharePref.clearData();
+                mSharePref.clearData();
                 startActivity(new Intent(MainActivity.this,SignInActivity.class));
                 finish();
             }
@@ -169,6 +171,15 @@ public class MainActivity extends DaggerAppCompatActivity {
         mTxtCountCart = actionView.findViewById(R.id.textViewCart);
 
         setBadgeCart();
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                intent.putExtra(Constant.KEY_CART,mCartModel);
+                startActivityForResult(intent,REQUEST_CODE_CART);
+            }
+        });
 
         return true;
 

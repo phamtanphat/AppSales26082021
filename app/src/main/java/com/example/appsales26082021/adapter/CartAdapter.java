@@ -60,8 +60,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             mBinding.textViewName.setText(foodModel.foodName);
             mBinding.textViewPrice.setText(foodModel.price+"");
             mBinding.textviewQuantity.setText(foodModel.quantity+"");
-
-
         }
     }
 
