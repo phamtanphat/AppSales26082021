@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.appsales26082021.api.ResourceType;
+import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.FoodModel;
 import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.model.UserModel;
@@ -32,7 +33,7 @@ public class MainViewModel extends ViewModel {
     private FoodRepository foodRepository;
     private OrderRepository orderRepository;
     private MutableLiveData<ResourceType<List<FoodModel>>> foodData = new MutableLiveData<>();
-    private MutableLiveData<ResourceType<List<FoodModel>>> cartData = new MutableLiveData<>();
+    private MutableLiveData<ResourceType<CartModel>> cartData = new MutableLiveData<>();
     private MutableLiveData<ResourceType<OrderModel>> orderData = new MutableLiveData<>();
 
     @Inject
@@ -45,7 +46,7 @@ public class MainViewModel extends ViewModel {
         return foodData;
     }
 
-    public LiveData<ResourceType<List<FoodModel>>> getCart(){
+    public LiveData<ResourceType<CartModel>> getCart(){
         return cartData;
     }
 
@@ -78,28 +79,29 @@ public class MainViewModel extends ViewModel {
     }
 
     public void fetchCart(){
-        foodRepository.fetchCart().enqueue(new Callback<ResourceType<List<FoodModel>>>() {
+        foodRepository.fetchCart().enqueue(new Callback<ResourceType<CartModel>>() {
             @Override
-            public void onResponse(Call<ResourceType<List<FoodModel>>> call, Response<ResourceType<List<FoodModel>>> response) {
+            public void onResponse(Call<ResourceType<CartModel>> call, Response<ResourceType<CartModel>> response) {
                 if (response.errorBody() != null){
                     try {
                         JSONObject jsonObject = new JSONObject(response.errorBody().string());
                         String message = jsonObject.getString("message");
-                        cartData.setValue(new ResourceType.Error<>(message));
+                        String code = jsonObject.getString("code");
+                        cartData.setValue(new ResourceType.Error<>(code + " : " + message));
                         return;
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 if (response.body().data == null){
-                    cartData.setValue(new ResourceType.Success<>(new ArrayList<>()));
+                    cartData.setValue(new ResourceType.Success<>(new CartModel()));
                 }else{
                     cartData.setValue(new ResourceType.Success<>(response.body().data));
                 }
             }
 
             @Override
-            public void onFailure(Call<ResourceType<List<FoodModel>>> call, Throwable t) {
+            public void onFailure(Call<ResourceType<CartModel>> call, Throwable t) {
                 cartData.setValue(new ResourceType.Error<>(t.getMessage()));
             }
         });

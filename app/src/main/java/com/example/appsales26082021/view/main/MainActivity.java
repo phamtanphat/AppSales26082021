@@ -17,6 +17,7 @@ import com.example.appsales26082021.adapter.FoodAdapter;
 import com.example.appsales26082021.api.ResourceType;
 import com.example.appsales26082021.databinding.ActivityMainBinding;
 import com.example.appsales26082021.interfaces.OnFoodItemListener;
+import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.FoodModel;
 import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.util.SharePref;
@@ -36,14 +37,18 @@ public class MainActivity extends DaggerAppCompatActivity {
     @Inject
     public ViewModelFactoryProvider provider;
     //
+    @Inject
+    SharePref mSharePref;
+
     MainViewModel mainViewModel;
 
     private FoodAdapter mFoodAdapter;
     private List<FoodModel> mListFoods;
-    private List<FoodModel> mListCarts;
+    private CartModel mCartModel;
     private OrderModel mOrderModel;
 
     private ActivityMainBinding mBinding;
+
 
 
     @Inject
@@ -89,15 +94,23 @@ public class MainActivity extends DaggerAppCompatActivity {
             }
         });
 
-        mainViewModel.getCart().observe(this, new Observer<ResourceType<List<FoodModel>>>() {
+        mainViewModel.getCart().observe(this, new Observer<ResourceType<CartModel>>() {
             @Override
-            public void onChanged(ResourceType<List<FoodModel>> listResourceType) {
+            public void onChanged(ResourceType<CartModel> listResourceType) {
                 if (listResourceType.status == ResourceType.Status.LOADING) {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
                 } else if (listResourceType.status == ResourceType.Status.SUCCESS) {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
-                    mListCarts = listResourceType.data;
+                    mCartModel = listResourceType.data;
                 } else {
+                    String code = listResourceType.message.substring(0,3);
+                    if (code.equals("401")){
+                        Toast.makeText(MainActivity.this, "Phiên làm việc hết hạn", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,SignInActivity.class));
+                        mSharePref.clearData();
+                        finish();
+                        return;
+                    }
                     Toast.makeText(MainActivity.this, listResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
@@ -161,11 +174,11 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void setBadgeCart(TextView txtCountCart) {
-        if (mListCarts == null || mListCarts.size() <= 0){
+        if (mCartModel == null || mCartModel.items.size() <= 0){
             txtCountCart.setVisibility(View.GONE);
         }else{
             txtCountCart.setVisibility(View.VISIBLE);
-            txtCountCart.setText(mListCarts.size() + "");
+            txtCountCart.setText(mCartModel.items.size() + "");
         }
     }
 }

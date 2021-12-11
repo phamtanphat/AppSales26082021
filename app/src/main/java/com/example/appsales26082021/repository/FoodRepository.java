@@ -2,6 +2,7 @@ package com.example.appsales26082021.repository;
 
 import com.example.appsales26082021.api.ApiRequest;
 import com.example.appsales26082021.api.ResourceType;
+import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.FoodModel;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class FoodRepository {
         return apiRequest.fetchListFoods();
     }
 
-    public Call<ResourceType<List<FoodModel>>> fetchCart() {
+    public Call<ResourceType<CartModel>> fetchCart() {
         return apiRequest.fetchCart();
     }
 }

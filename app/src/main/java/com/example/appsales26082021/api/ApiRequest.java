@@ -1,5 +1,6 @@
 package com.example.appsales26082021.api;
 
+import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.FoodModel;
 import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.model.UserModel;
@@ -24,7 +25,7 @@ public interface ApiRequest {
     Call<ResourceType<List<FoodModel>>> fetchListFoods();
 
     @GET("api/v1/order/shopping-cart")
-    Call<ResourceType<List<FoodModel>>> fetchCart();
+    Call<ResourceType<CartModel>> fetchCart();
 
     @POST("api/v1/order/shopping-cart")
     Call<ResourceType<OrderModel>> addCart(@Body HashMap<String,String> data);
