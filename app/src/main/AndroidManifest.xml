@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSales26082021">
         <activity
+            android:name=".view.cart.CartActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.splash.SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +29,7 @@
             android:exported="true" />
         <activity
             android:name=".view.sign_in.SignInActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".view.main.MainActivity"
             android:exported="true" />
