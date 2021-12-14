@@ -69,7 +69,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     private void event() {
         mainViewModel.fetchListFoods();
-        mainViewModel.fetchCart();
+        mainViewModel.fetchTotalCart();
 
         mFoodAdapter.setOnFoodItemListener(new OnFoodItemListener() {
             @Override
@@ -130,6 +130,14 @@ public class MainActivity extends DaggerAppCompatActivity {
                     mOrderModel = orderModelResourceType.data;
                     mainViewModel.fetchCart();
                 } else {
+                    String code = orderModelResourceType.message.substring(0,3);
+                    if (code.equals("401")){
+                        Toast.makeText(MainActivity.this, "Phiên làm việc hết hạn", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,SignInActivity.class));
+                        mSharePref.clearData();
+                        finish();
+                        return;
+                    }
                     Toast.makeText(MainActivity.this, orderModelResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }

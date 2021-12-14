@@ -1,7 +1,9 @@
 package com.example.appsales26082021.di.activity;
 
 import com.example.appsales26082021.di.viewmodel.auth.AuthViewModelModule;
+import com.example.appsales26082021.di.viewmodel.cart.CartViewModelModule;
 import com.example.appsales26082021.di.viewmodel.main.MainViewModelModule;
+import com.example.appsales26082021.view.cart.CartActivity;
 import com.example.appsales26082021.view.main.MainActivity;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
@@ -14,9 +16,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(
-            modules = {CartViewModel.class}
+            modules = {CartViewModelModule.class}
     )
-    abstract public MainActivity bindContributeCartActivity();
+    abstract public CartActivity bindContributeCartActivity();
 
     @ContributesAndroidInjector(
             modules = {MainViewModelModule.class}

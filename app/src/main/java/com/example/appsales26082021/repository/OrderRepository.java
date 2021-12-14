@@ -18,6 +18,10 @@ public class OrderRepository {
         this.apiRequest = apiRequest;
     }
 
+    public Call<ResourceType<OrderModel>> fetchTotalCountCart(){
+        return apiRequest.fetchTotalCountCart();
+    }
+
     public Call<ResourceType<OrderModel>> addCart(String foodId){
         HashMap<String ,String> map = new HashMap<>();
         map.put("foodId",foodId);

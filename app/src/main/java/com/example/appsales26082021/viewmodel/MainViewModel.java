@@ -78,6 +78,31 @@ public class MainViewModel extends ViewModel {
         });
     }
 
+    public void fetchTotalCart(){
+        orderRepository.fetchTotalCountCart().enqueue(new Callback<ResourceType<OrderModel>>() {
+            @Override
+            public void onResponse(Call<ResourceType<OrderModel>> call, Response<ResourceType<OrderModel>> response) {
+                if (response.errorBody() != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        String message = jsonObject.getString("message");
+                        String code = jsonObject.getString("code");
+                        orderData.setValue(new ResourceType.Error<>(code + " : " + message));
+                        return;
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                orderData.setValue(new ResourceType.Success<>(response.body().data));
+            }
+
+            @Override
+            public void onFailure(Call<ResourceType<OrderModel>> call, Throwable t) {
+                orderData.setValue(new ResourceType.Error<>(t.getMessage()));
+            }
+        });
+    }
+
     public void fetchCart(){
         foodRepository.fetchCart().enqueue(new Callback<ResourceType<CartModel>>() {
             @Override

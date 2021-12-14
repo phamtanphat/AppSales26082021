@@ -108,6 +108,16 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+        <ImageView
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
