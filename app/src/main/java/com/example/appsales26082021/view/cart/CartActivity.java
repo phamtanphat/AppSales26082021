@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.appsales26082021.R;
 import com.example.appsales26082021.adapter.CartAdapter;
@@ -19,6 +20,8 @@ import com.example.appsales26082021.model.FoodModel;
 import com.example.appsales26082021.model.OrderModel;
 import com.example.appsales26082021.util.Constant;
 import com.example.appsales26082021.util.Helper;
+import com.example.appsales26082021.view.main.MainActivity;
+import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.viewmodel.CartViewModel;
 import com.example.appsales26082021.viewmodel.ViewModelFactoryProvider;
 
@@ -63,21 +66,39 @@ public class CartActivity extends DaggerAppCompatActivity {
             }
         });
 
+        mCartAdapter.setOnListenerCartItem(new CartAdapter.OnListenerCartItem() {
+            @Override
+            public void onPlus(int position) {
+                mCartViewModel.updateCart(mOrderId,mListFoods.get(position).foodId,mListFoods.get(position).quantity + 1);
+            }
+
+            @Override
+            public void onMinus(int position) {
+                if (mListFoods.get(position).quantity > 1){
+                    mCartViewModel.updateCart(mOrderId,mListFoods.get(position).foodId,mListFoods.get(position).quantity - 1);
+                }
+
+            }
+
+            @Override
+            public void onDelete(int position) {
+
+            }
+        });
     }
 
     private void observerData() {
         mCartViewModel.getDataUpdate().observe(this, new Observer<ResourceType<String>>() {
             @Override
             public void onChanged(ResourceType<String> stringResourceType) {
-                if (stringResourceType != null){
-                    switch (stringResourceType.status){
-                        case LOADING:
-                            break;
-                        case SUCCESS:
-                            break;
-                        case ERROR:
-                            break;
-                    }
+                if (stringResourceType.status == ResourceType.Status.LOADING) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
+                } else if (stringResourceType.status == ResourceType.Status.SUCCESS) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    Toast.makeText(CartActivity.this, "Cập nhật thành công!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CartActivity.this, stringResourceType.message, Toast.LENGTH_SHORT).show();
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
             }
         });

@@ -58,4 +58,8 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/includeLoading"
+        layout="@layout/layout_loading"/>
 </LinearLayout>
