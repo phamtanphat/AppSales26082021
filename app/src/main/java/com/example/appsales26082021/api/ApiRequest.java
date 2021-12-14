@@ -29,4 +29,7 @@ public interface ApiRequest {
 
     @POST("api/v1/order/add-to-cart")
     Call<ResourceType<OrderModel>> addCart(@Body HashMap<String,String> data);
+
+    @POST("api/v1/order/update")
+    Call<ResourceType<String>> updateCart(@Body HashMap<String,Object> data);
 }

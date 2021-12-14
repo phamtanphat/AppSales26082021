@@ -23,4 +23,12 @@ public class OrderRepository {
         map.put("foodId",foodId);
         return apiRequest.addCart(map);
     }
+
+    public Call<ResourceType<String>> updateCart(String orderId, String foodId , int quantity){
+        HashMap<String ,Object> map = new HashMap<>();
+        map.put("orderId",orderId);
+        map.put("foodId",foodId);
+        map.put("quantity",quantity);
+        return apiRequest.updateCart(map);
+    }
 }
