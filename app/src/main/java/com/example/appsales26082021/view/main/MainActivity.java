@@ -177,6 +177,7 @@ public class MainActivity extends DaggerAppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 intent.putExtra(Constant.KEY_CART,mCartModel);
+                intent.putExtra(Constant.KEY_ORDERID,mOrderModel.orderId);
                 startActivityForResult(intent,REQUEST_CODE_CART);
             }
         });

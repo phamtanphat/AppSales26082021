@@ -6,12 +6,17 @@ import com.example.appsales26082021.view.main.MainActivity;
 import com.example.appsales26082021.view.sign_in.SignInActivity;
 import com.example.appsales26082021.view.sign_up.SignUpActivity;
 import com.example.appsales26082021.view.splash.SplashActivity;
+import com.example.appsales26082021.viewmodel.CartViewModel;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class ActivityBuilderModule {
+    @ContributesAndroidInjector(
+            modules = {CartViewModel.class}
+    )
+    abstract public MainActivity bindContributeCartActivity();
 
     @ContributesAndroidInjector(
             modules = {MainViewModelModule.class}
