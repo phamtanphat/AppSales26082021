@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.appsales26082021.api.ApiRequest;
 import com.example.appsales26082021.api.ResourceType;
+import com.example.appsales26082021.model.CartModel;
+import com.example.appsales26082021.repository.FoodRepository;
 import com.example.appsales26082021.repository.OrderRepository;
 
 import org.json.JSONException;
@@ -21,23 +23,31 @@ import retrofit2.Response;
 
 public class CartViewModel extends ViewModel {
     private OrderRepository repository;
+    private FoodRepository foodRepository;
+
     private MutableLiveData<ResourceType<String>> dataUpdate = new MutableLiveData<>();
+    private MutableLiveData<ResourceType<CartModel>> dataCart = new MutableLiveData<>();
 
     @Inject
-    public CartViewModel(OrderRepository orderRepository) {
+    public CartViewModel(OrderRepository orderRepository, FoodRepository foodRepository) {
         repository = orderRepository;
+        this.foodRepository = foodRepository;
     }
 
     public LiveData<ResourceType<String>> getDataUpdate() {
         return dataUpdate;
     }
 
-    public void updateCart(String orderId, String foodId , int quantity){
+    public LiveData<ResourceType<CartModel>> getDataCart() {
+        return dataCart;
+    }
+
+    public void updateCart(String orderId, String foodId, int quantity) {
         repository.updateCart(orderId, foodId, quantity)
                 .enqueue(new Callback<ResourceType<String>>() {
                     @Override
                     public void onResponse(Call<ResourceType<String>> call, Response<ResourceType<String>> response) {
-                        if (response.errorBody() != null){
+                        if (response.errorBody() != null) {
                             try {
                                 JSONObject jsonObject = new JSONObject(response.errorBody().string());
                                 String message = jsonObject.getString("message");
@@ -57,4 +67,32 @@ public class CartViewModel extends ViewModel {
                 });
     }
 
+    public void fetchCart(){
+        foodRepository.fetchCart().enqueue(new Callback<ResourceType<CartModel>>() {
+            @Override
+            public void onResponse(Call<ResourceType<CartModel>> call, Response<ResourceType<CartModel>> response) {
+                if (response.errorBody() != null){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                        String message = jsonObject.getString("message");
+                        String code = jsonObject.getString("code");
+                        dataCart.setValue(new ResourceType.Error<>(code + " : " + message));
+                        return;
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (response.body().data == null){
+                    dataCart.setValue(new ResourceType.Success<>(new CartModel()));
+                }else{
+                    dataCart.setValue(new ResourceType.Success<>(response.body().data));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResourceType<CartModel>> call, Throwable t) {
+                dataCart.setValue(new ResourceType.Error<>(t.getMessage()));
+            }
+        });
+    }
 }

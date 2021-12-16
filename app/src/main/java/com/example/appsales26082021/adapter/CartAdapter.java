@@ -22,6 +22,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public void updateCart(List<FoodModel> lstFoodModel) {
+        if (this.lstFoodModel != null && this.lstFoodModel.size() > 0 ){
+            this.lstFoodModel.clear();
+        }
         this.lstFoodModel = lstFoodModel;
         notifyDataSetChanged();
     }

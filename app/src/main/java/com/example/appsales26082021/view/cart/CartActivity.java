@@ -37,7 +37,6 @@ public class CartActivity extends DaggerAppCompatActivity {
     @Inject
     ViewModelFactoryProvider provider;
 
-
     private CartViewModel mCartViewModel;
     private ActivityCartBinding mBinding;
     private CartModel mCartModel;
@@ -69,13 +68,13 @@ public class CartActivity extends DaggerAppCompatActivity {
         mCartAdapter.setOnListenerCartItem(new CartAdapter.OnListenerCartItem() {
             @Override
             public void onPlus(int position) {
-                mCartViewModel.updateCart(mOrderId,mListFoods.get(position).foodId,mListFoods.get(position).quantity + 1);
+                mCartViewModel.updateCart(mOrderId, mListFoods.get(position).foodId, mListFoods.get(position).quantity + 1);
             }
 
             @Override
             public void onMinus(int position) {
-                if (mListFoods.get(position).quantity > 1){
-                    mCartViewModel.updateCart(mOrderId,mListFoods.get(position).foodId,mListFoods.get(position).quantity - 1);
+                if (mListFoods.get(position).quantity > 1) {
+                    mCartViewModel.updateCart(mOrderId, mListFoods.get(position).foodId, mListFoods.get(position).quantity - 1);
                 }
 
             }
@@ -95,9 +94,27 @@ public class CartActivity extends DaggerAppCompatActivity {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
                 } else if (stringResourceType.status == ResourceType.Status.SUCCESS) {
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
-                    Toast.makeText(CartActivity.this, "Cập nhật thành công!!", Toast.LENGTH_SHORT).show();
+                    mCartViewModel.fetchCart();
                 } else {
                     Toast.makeText(CartActivity.this, stringResourceType.message, Toast.LENGTH_SHORT).show();
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mCartViewModel.getDataCart().observe(this, new Observer<ResourceType<CartModel>>() {
+            @Override
+            public void onChanged(ResourceType<CartModel> cartModelResourceType) {
+                if (cartModelResourceType.status == ResourceType.Status.LOADING) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
+                } else if (cartModelResourceType.status == ResourceType.Status.SUCCESS) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    mCartModel = cartModelResourceType.data;
+                    mListFoods = mCartModel.items;
+                    mCartAdapter.updateCart(mListFoods);
+                    setTextTotal();
+                } else {
+                    Toast.makeText(CartActivity.this, cartModelResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
             }
@@ -119,13 +136,17 @@ public class CartActivity extends DaggerAppCompatActivity {
         mListFoods = new ArrayList<>();
         // Get data from intent MainActivity
         Intent intent = getIntent();
-        if (intent != null){
+        if (intent != null) {
             mCartModel = (CartModel) intent.getSerializableExtra(Constant.KEY_CART);
             mOrderId = (String) intent.getSerializableExtra(Constant.KEY_ORDERID);
             mListFoods = mCartModel.items;
-            mBinding.textviewTotalAmount.setText("Tổng tiền: "+ Helper.formatPrice(mCartModel.total) + " VNĐ");
+            setTextTotal();
         }
 
-        mCartViewModel = new ViewModelProvider(this,provider).get(CartViewModel.class);
+        mCartViewModel = new ViewModelProvider(this, provider).get(CartViewModel.class);
+    }
+
+    private void setTextTotal(){
+        mBinding.textviewTotalAmount.setText("Tổng tiền: " + Helper.formatPrice(mCartModel.total) + " VNĐ");
     }
 }
