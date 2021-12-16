@@ -40,4 +40,7 @@ public interface ApiRequest {
 
     @HTTP(method = "DELETE", path = "api/v1/order/delete", hasBody = true)
     Call<ResourceType<CartModel>> deleteItemCart(@Body HashMap<String,String> data);
+
+    @POST("api/v1/order/confirm")
+    Call<ResourceType<String>> confirm(@Body HashMap<String,String> data);
 }

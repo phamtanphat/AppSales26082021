@@ -42,4 +42,11 @@ public class OrderRepository {
         map.put("foodId",foodId);
         return apiRequest.deleteItemCart(map);
     }
+
+    public Call<ResourceType<String>> confirm(String orderId){
+        HashMap<String ,String> map = new HashMap<>();
+        map.put("orderId",orderId);
+        map.put("status","CONFIRM");
+        return apiRequest.confirm(map);
+    }
 }

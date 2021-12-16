@@ -87,6 +87,13 @@ public class CartActivity extends DaggerAppCompatActivity {
                 mCartViewModel.deleteItemCart(mListFoods.get(position).foodId);
             }
         });
+
+        mBinding.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCartViewModel.confirm(mOrderId);
+            }
+        });
     }
 
     private void observerData() {
@@ -118,6 +125,25 @@ public class CartActivity extends DaggerAppCompatActivity {
                     setTextTotal();
                 } else {
                     Toast.makeText(CartActivity.this, cartModelResourceType.message, Toast.LENGTH_SHORT).show();
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mCartViewModel.getConfirm().observe(this, new Observer<ResourceType<String>>() {
+            @Override
+            public void onChanged(ResourceType<String> stringResourceType) {
+                if (stringResourceType.status == ResourceType.Status.LOADING) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.VISIBLE);
+                } else if (stringResourceType.status == ResourceType.Status.SUCCESS) {
+                    mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                    mCartModel = null;
+                    Intent intent = new Intent(CartActivity.this,MainActivity.class);
+                    intent.putExtra(Constant.KEY_CART,mCartModel);
+                    setResult(RESULT_OK,intent);
+                   finish();
+                } else {
+                    Toast.makeText(CartActivity.this, stringResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
             }
