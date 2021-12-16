@@ -81,7 +81,7 @@ public class CartActivity extends DaggerAppCompatActivity {
 
             @Override
             public void onDelete(int position) {
-
+                mCartViewModel.deleteItemCart(mListFoods.get(position).foodId);
             }
         });
     }
@@ -119,6 +119,7 @@ public class CartActivity extends DaggerAppCompatActivity {
                 }
             }
         });
+
     }
 
     private void initView() {

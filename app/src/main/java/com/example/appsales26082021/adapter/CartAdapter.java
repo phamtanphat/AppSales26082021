@@ -70,7 +70,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     }
                 }
             });
-
+            mBinding.imageDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onListenerCartItem != null) {
+                        onListenerCartItem.onDelete(getAdapterPosition());
+                    }
+                }
+            });
         }
 
         void bind(View itemView, FoodModel foodModel) {
