@@ -2,6 +2,7 @@ package com.example.appsales26082021.repository;
 
 import com.example.appsales26082021.api.ApiRequest;
 import com.example.appsales26082021.api.ResourceType;
+import com.example.appsales26082021.model.CartModel;
 import com.example.appsales26082021.model.OrderModel;
 
 import java.util.HashMap;
@@ -34,5 +35,11 @@ public class OrderRepository {
         map.put("foodId",foodId);
         map.put("quantity",quantity);
         return apiRequest.updateCart(map);
+    }
+
+    public Call<ResourceType<CartModel>> deleteItemCart(String foodId){
+        HashMap<String ,String> map = new HashMap<>();
+        map.put("foodId",foodId);
+        return apiRequest.deleteItemCart(map);
     }
 }

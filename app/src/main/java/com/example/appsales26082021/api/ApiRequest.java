@@ -10,6 +10,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -35,4 +36,7 @@ public interface ApiRequest {
 
     @POST("api/v1/order/update")
     Call<ResourceType<String>> updateCart(@Body HashMap<String,Object> data);
+
+    @DELETE("api/v1/order/delete")
+    Call<ResourceType<CartModel>> deleteItemCart(@Body HashMap<String,String> data);
 }
