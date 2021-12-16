@@ -61,6 +61,9 @@ public class CartActivity extends DaggerAppCompatActivity {
         mBinding.toolbarCart.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this,MainActivity.class);
+                intent.putExtra(Constant.KEY_CART,mCartModel);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -140,8 +143,10 @@ public class CartActivity extends DaggerAppCompatActivity {
         if (intent != null) {
             mCartModel = (CartModel) intent.getSerializableExtra(Constant.KEY_CART);
             mOrderId = (String) intent.getSerializableExtra(Constant.KEY_ORDERID);
-            mListFoods = mCartModel.items;
-            setTextTotal();
+            if (mCartModel != null){
+                mListFoods = mCartModel.items;
+                setTextTotal();
+            }
         }
 
         mCartViewModel = new ViewModelProvider(this, provider).get(CartViewModel.class);

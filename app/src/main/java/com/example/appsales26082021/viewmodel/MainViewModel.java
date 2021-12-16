@@ -85,9 +85,8 @@ public class MainViewModel extends ViewModel {
                 if (response.errorBody() != null){
                     try {
                         JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        String message = jsonObject.getString("message");
                         String code = jsonObject.getString("code");
-                        orderData.setValue(new ResourceType.Error<>(code + " : " + message));
+                        orderData.setValue(new ResourceType.Error<>(code));
                         return;
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();

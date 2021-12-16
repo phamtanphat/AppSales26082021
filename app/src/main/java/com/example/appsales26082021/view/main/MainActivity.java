@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -138,6 +139,10 @@ public class MainActivity extends DaggerAppCompatActivity {
                         finish();
                         return;
                     }
+                    if (code.equals("404")){
+                        mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
+                        return;
+                    }
                     Toast.makeText(MainActivity.this, orderModelResourceType.message, Toast.LENGTH_SHORT).show();
                     mBinding.includeLoading.layoutLoading.setVisibility(View.GONE);
                 }
@@ -184,8 +189,10 @@ public class MainActivity extends DaggerAppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
-                intent.putExtra(Constant.KEY_CART,mCartModel);
-                intent.putExtra(Constant.KEY_ORDERID,mOrderModel.orderId);
+                if (mCartModel != null && mOrderModel != null){
+                    intent.putExtra(Constant.KEY_CART,mCartModel);
+                    intent.putExtra(Constant.KEY_ORDERID,mOrderModel.orderId);
+                }
                 startActivityForResult(intent,REQUEST_CODE_CART);
             }
         });
@@ -195,7 +202,7 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void setBadgeCart() {
-        if (mCartModel == null || mCartModel.items.size() <= 0){
+        if (mCartModel == null || mCartModel.items == null || mCartModel.items.size() <= 0){
             mTxtCountCart.setVisibility(View.GONE);
         }else{
             mTxtCountCart.setVisibility(View.VISIBLE);
@@ -205,5 +212,15 @@ public class MainActivity extends DaggerAppCompatActivity {
             }
             mTxtCountCart.setText(count + "");
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_CART && resultCode == RESULT_OK && data != null){
+            CartModel dataCart = (CartModel) data.getSerializableExtra(Constant.KEY_CART);
+            mCartModel = dataCart;
+            setBadgeCart();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

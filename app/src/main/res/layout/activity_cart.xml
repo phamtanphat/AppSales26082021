@@ -40,7 +40,7 @@
             android:background="#2B9E93"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tổng tiền: 235.000đ"
+            android:text="Tổng tiền: 0đ"
             android:textSize="20sp"
             android:textColor="@color/white"/>
         <androidx.appcompat.widget.AppCompatButton
